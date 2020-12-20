@@ -101,6 +101,7 @@ public class CarRentalGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == makeReservationButton) {
 		    mr = new ReservationGUI(sg,cInfos);
+		    mr.setTitle("Reservation");
 			mr.setSize(600,250);
 			mr.setVisible(true);
 			//mr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,9 +110,10 @@ public class CarRentalGUI extends JFrame implements ActionListener{
 		if(ae.getSource() == reportButton) {
 			
 			ReportGUI rep = new ReportGUI(sg,cInfos);
+			rep.setTitle("Report");
 			    rep.setSg(sg);
 			    rep.setcInfos(cInfos);
-			    rep.setSize(500,400);
+			    rep.setSize(800,650);
 				rep.setVisible(true);
 				//rep.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

@@ -37,8 +37,11 @@ public class ReportGUI extends JFrame{
 	    clinfoButton = new JButton("Get Client Informations");
 	    exitButton = new JButton("Back");
 	    
-	    carArea = new JTextArea(12,20);
-	    clientArea = new JTextArea(12,20);
+	    carArea = new JTextArea(30,35);
+	    clientArea = new JTextArea(30,30);
+	    
+	    carArea.setEditable(false);
+	    clientArea.setEditable(false);
 	    
 	    this.sg = sg;
 	    this.cInfos = cInfos;
@@ -64,9 +67,9 @@ public class ReportGUI extends JFrame{
 		clientPanel.add(clientIdTf);
 		clientPanel.add(clinfoButton);
 		
-		textPanel.add(carArea);
 		textPanel.add(clientArea);
-		
+		textPanel.add(carArea);
+	
 		
 		//c.add(clientIdL);
 		//c.add(clientIdTf);
@@ -115,27 +118,27 @@ public class ReportGUI extends JFrame{
 				try {
 				for(int i=0;i<30;i++) {
 					if(cInfos[i].getClientId().equals(Id)) {
-						clientArea.append(cInfos[i].getNumOfTimesBook()+cInfos[i].getCars().get(0).getLocation()+cInfos[i].getNumOfTimesBook()+"\n");
+						for(int j=0;j<cInfos[i].getCars().size();j++)
+						clientArea.append(cInfos[i].getNumOfTimesBook()+" times booked --> Location: "+cInfos[i].getCars().get(j).getLocation()+" Total Money : "+cInfos[i].getTotalMoney()+"$\n");
 					    
 					}
 					
 				}
 				}
 				catch(Exception e) {
-					JOptionPane.showMessageDialog(null, "There is not any client");
+					JOptionPane.showMessageDialog(null, "There is no any client");
 				}
 
 			}
 			
 			if(ae.getSource() == plateInfoButton) {
-				
-				
+
 				
 				for(int j=0;j<30;j++) {
 
 					if(sg[j].getPlate().equals(plateTf.getText())) {
 						
-					  carArea.append(sg[j].getNumOfTimesRented()+" "+sg[j].getRentalDate()+" "+sg[j].getReturnDt());
+					  carArea.append(sg[j].getNumOfTimesRented()+" "+sg[j].getRentalDate()+" "+sg[j].getReturnDt()+"\n");
 
 						 
 					}

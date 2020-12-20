@@ -145,6 +145,7 @@ public class ReservationGUI extends JFrame {
 					numofExtras+=1;
 				
 				int p=0;
+
 				String index = clientIdTextField.getText();
 					
 					if(segment.getSelectedIndex() == 0) {
@@ -155,12 +156,37 @@ public class ReservationGUI extends JFrame {
 								 sg[i].setPrice(p);
 								 sg[i].setNumOfTimesRented(sg[i].getNumOfTimesRented()+1);
 								 sg[i].setLocation(locationT.getText());
-								 JOptionPane.showMessageDialog(null, "Please pay "+Integer.toString(p)+"$");
+								 JOptionPane.showMessageDialog(null,"Please pay "+ Integer.toString(p)+"$");
 								 sg[i].setControl(false);
 								 if(index.equals("")) {
-										cInfos[i].setClientId(i+"");
+									 int indice = findIndex(cInfos);
+
+										cInfos[indice].setClientId(i+"");
+										cInfos[indice].setNumOfTimesBook(cInfos[indice].getNumOfTimesBook()+1);
+										 cInfos[indice].setTotalMoney(cInfos[indice].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[indice].getCars();
+										 list.add(sg[i]);
+										 cInfos[indice].setCars(list);
 										
 									}
+								 else {
+									 
+									 try {
+									 int cont = findContent(cInfos,index);
+									 
+										cInfos[cont].setNumOfTimesBook(cInfos[cont].getNumOfTimesBook()+1);
+										 cInfos[cont].setTotalMoney(cInfos[cont].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[cont].getCars();
+										 list.add(sg[i]);
+										 cInfos[cont].setCars(list);
+									 }
+									 catch(IdNumberException ex) {
+										 sg[i].setControl(true);
+										 JOptionPane.showMessageDialog(null, index+" "+ex.getMessage());
+										 
+									 }
+									 
+								 }
 									
 								 break;
 		  
@@ -181,9 +207,29 @@ public class ReservationGUI extends JFrame {
 								 sg[i].setNumOfTimesRented(sg[i].getNumOfTimesRented()+1);
 								 JOptionPane.showMessageDialog(null,"Please pay "+ Integer.toString(p)+"$");
 								 if(index.equals("")) {
-										cInfos[i].setClientId(i+"");
-										
+									 int indice = findIndex(cInfos);
+										cInfos[indice].setClientId(i+"");
+										cInfos[indice].setNumOfTimesBook(cInfos[indice].getNumOfTimesBook()+1);
+										 cInfos[indice].setTotalMoney(cInfos[indice].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[indice].getCars();
+										 list.add(sg[i]);
+										 cInfos[indice].setCars(list);
 									}
+								 else {
+									 try {
+                                     int cont = findContent(cInfos,index);
+									 
+										cInfos[cont].setNumOfTimesBook(cInfos[cont].getNumOfTimesBook()+1);
+										 cInfos[cont].setTotalMoney(cInfos[cont].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[cont].getCars();
+										 list.add(sg[i]);
+										 cInfos[cont].setCars(list);
+									 }
+									 catch(IdNumberException ex) {
+										 sg[i].setControl(true);
+										 JOptionPane.showMessageDialog(null, index+" "+ex.getMessage());
+									 }
+								 }
 
 								 break;
 							}
@@ -206,9 +252,33 @@ public class ReservationGUI extends JFrame {
 								 JOptionPane.showMessageDialog(null,"Please pay "+ Integer.toString(p)+"$");
 								 sg[i].setControl(false);
 								 if(index.equals("")) {
-										cInfos[i].setClientId(i+"");
+									 int indice = findIndex(cInfos);
+									 
+
+										cInfos[indice].setClientId(i+"");
+										cInfos[indice].setNumOfTimesBook(cInfos[indice].getNumOfTimesBook()+1);
+										 cInfos[indice].setTotalMoney(cInfos[indice].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[indice].getCars();
+										 list.add(sg[i]);
+										 cInfos[indice].setCars(list);
 										
 									}
+								 else {
+									 try {
+                                     int cont = findContent(cInfos,index);
+									   
+										cInfos[cont].setNumOfTimesBook(cInfos[cont].getNumOfTimesBook()+1);
+										 cInfos[cont].setTotalMoney(cInfos[cont].getTotalMoney()+p);
+										 ArrayList<SegmentOfCars> list = cInfos[cont].getCars();
+										 list.add(sg[i]);
+										 cInfos[cont].setCars(list);
+									 }
+									 catch(IdNumberException ex) {
+										 sg[i].setControl(true);
+										 JOptionPane.showMessageDialog(null, index+" "+ex.getMessage());
+									 }
+
+								 }
 								      
 								 break;
 							}
@@ -218,17 +288,6 @@ public class ReservationGUI extends JFrame {
 					
 					}
 					
-					/*for(int i=0 ;i<30;i++) {
-						if(index.equals(cInfos[i].getClientId())) {
-							cInfos[i].setNumOfTimesBook(cInfos[i].getNumOfTimesBook()+1);
-							 cInfos[i].setTotalMoney(cInfos[i].getTotalMoney()+p);
-							 ArrayList<SegmentOfCars> list = cInfos[i].getCars();
-							 list.add(sg[i]);
-							 cInfos[i].setCars(list);
-						}
-						
-						
-					}*/
 					
 					
 					setSg(sg);
@@ -246,6 +305,31 @@ public class ReservationGUI extends JFrame {
 			if(ae.getSource() == exitButton)
 				dispose();
 				
+
+		}
+		
+		public int findIndex(ClientInfo cInfos[]) {
+			
+			for(int i=0;i<cInfos.length;i++) {
+				if(cInfos[i].getClientId().equals("")) {
+		
+					return i;
+				}
+				
+			}
+			return -1;
+
+			
+		}
+		public int findContent(ClientInfo cInfos[],String s) throws IdNumberException {
+			
+			for(int i=0;i<cInfos.length;i++) {
+				if(cInfos[i].getClientId().equals(s)) {
+					return i;
+				}
+				
+			}
+			throw new IdNumberException();
 
 		}
 		
